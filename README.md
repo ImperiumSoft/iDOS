@@ -17,16 +17,16 @@ Before you build it, you should set up a Makefile.<br>
 It should look something like this if you are on linux: 
 ```
 all: build
-	qemu-system-x86_64 -cdrom kernel.iso
+	qemu-system-x86_64 -cdrom iDOS.iso
 
 build:
 	nasm -f bin -o kernel.bin src/kernel.asm
 	mv kernel.bin bin/kernel.bin
-	mkisofs -b kernel.bin -no-emul-boot -o kernel.iso bin/
+	mkisofs -b kernel.bin -no-emul-boot -o iDOS.iso bin/
 	
 clean:
 	rm -rvf kernel.bin
-	rm -rvf kernel.iso
+	rm -rvf iDOS.iso
 ```
 
 Then to build and run, simply run `make all` in the terminal.
@@ -44,7 +44,7 @@ Make a .bat file to compile and run, it should look something like this:
 ```
 nasm -f bin -o kernel.bin src/kernel.asm
 move /Y kernel.bin bin
-mkisofs -b kernel.bin -no-emul-boot -o kernel.iso bin/
-qemu-system-x86_64 -cdrom kernel.iso
+mkisofs -b kernel.bin -no-emul-boot -o iDOS.iso bin/
+qemu-system-x86_64 -cdrom iDOS.iso
 ```
 Then run the .bat file.

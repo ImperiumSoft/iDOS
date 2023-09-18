@@ -1,0 +1,31 @@
+name: build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install prerequisites
+      run: |
+        sudo apt update
+        sudo apt install -y make nasm mkisofs
+    
+    - name: Build project
+      run: |
+        nasm -f bin -o kernel.bin src/kernel.asm
+        mv kernel.bin bin/kernel.bin
+        mkisofs -b kernel.bin -no-emul-boot -o kernel.iso bin/
+
+    - name: Clean project
+      run: |
+        rm -rvf kernel.bin
+        rm -rvf kernel.iso
