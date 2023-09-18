@@ -1,5 +1,7 @@
 # iDOS
 
+[![build](https://github.com/ImperiumSoft/iDOS/actions/workflows/makefile.yml/badge.svg)](https://github.com/ImperiumSoft/iDOS/actions/workflows/makefile.yml)
+
 A simple kernel made in assembly.
 
 ## Building on Linux
