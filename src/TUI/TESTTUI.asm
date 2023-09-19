@@ -3,78 +3,233 @@
 
 section .data
     cmd_tui_test: db `tui\0`
-    text_one: db `one\0`
-    text_two: db `two\0`
+    full_line: db `********************************************************************************\0`
+    empty_line: db `                                                                                \0`
+    triple_asterisk: db `***\0`
+    triple_asterisk_empty: db `                                                                          \0`
+    asterisk: db `*\0`
+    asterisk_empty: db `                                                                              \0`
+    title: db ` iDOS TUI Test                                                            \0`
+    option_one: db ` <Option 1>                                                                   \0`
+    option_two: db ` <Option 2>                                                                   \0`
 
 section .text
     tui_run:
         call func_clear
-        mov ch, 0
+        mov dl, 0
+        mov dh, 0
         jmp .run
 
         .run:
+            cmp dh, 0
+            je .renderZero
+
             mov ah, 0h
             int 16h
 
-            cmp al, 113
-            je .down
-
-            cmp al, 119
-            je .up
-
-            cmp al, 27
+            cmp ah, 1
             je .ret
 
-            cmp ch, 1
-            je .display_one
+            cmp ah, 17
+            je .w
 
-            cmp ch, 2
-            je .display_two
+            cmp ah, 31
+            je .s
 
             jmp .run
+
 
         .ret:
             call func_clear
             ret
 
-        .display_one:
-            ;mov ah, 02h
-            ;mov bh, 0
-            ;mov dh, 10
-            ;mov dl, 10
-            ;int 10h
+        .w:
+            ;write text_one
+            ;jmp .run
 
-            write text_one
+            jmp .upHandle
+
+        .s:
+            ;write text_two
+            ;jmp .run
+
+            jmp .downHandle
+
+        .upHandle:
+            cmp dl, 1
+            je .setZero
+
+            cmp dl, 0
+            je .setOne
+
+        .downHandle:
+            cmp dl, 0
+            je .setOne
+
+            cmp dl, 1
+            je .setZero
+
+        .setZero:
+            mov dl, 0
+            jmp .renderZero
+
+        .setOne:
+            mov dl, 1
+            jmp .renderOne
+
+        .renderZero:
+            call func_clear
+            cwrite full_line, 2
+            cwrite triple_asterisk, 2
+            write title
+            cwrite triple_asterisk, 2
+            cwrite full_line, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+
+            cwrite asterisk, 2
+            cwrite option_one, 3
+            cwrite asterisk, 2
+
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+
+            cwrite asterisk, 2
+            write option_two
+            cwrite asterisk, 2
+
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite full_line, 2
+
+            cmp dh, 0
+            je .firstHandle
+
             jmp .run
 
-        .display_two:
-            ;mov ah, 02h
-            ;mov bh, 0
-            ;mov dh, 11
-            ;mov dl, 10
-            ;int 10h
-
-            write text_two
+        .firstHandle
+            mov dh, 1
             jmp .run
 
-        .up:
-            inc ch
-            cmp ch, 0
-            je .last
+        .renderOne:
+            call func_clear
+            cwrite full_line, 2
+            cwrite triple_asterisk, 2
+            write title
+            cwrite triple_asterisk, 2
+            cwrite full_line, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
 
-            jmp .run
+            cwrite asterisk, 2
+            write option_one
+            cwrite asterisk, 2
 
-        .down:
-            cmp ch, 2
-            je .first
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
 
-            mov ch, 2
-            jmp .run
+            cwrite asterisk, 2
+            cwrite option_two, 3
+            cwrite asterisk, 2
 
-        .last:
-            mov ch, 2
-            jmp .run
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite asterisk, 2
+            write asterisk_empty
+            cwrite asterisk, 2
+            cwrite full_line, 2
 
-        .first:
-            mov ch, 1
             jmp .run
